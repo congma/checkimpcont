@@ -48,9 +48,10 @@ See also the StackOverflow posts:
 *  [Issue warning for missing comma between list items bug](https://stackoverflow.com/questions/34540634/issue-warning-for-missing-comma-between-list-items-bug)
 *  [Can I get a lint error on implicit string joining in python?](https://stackoverflow.com/questions/40503153/can-i-get-a-lint-error-on-implicit-string-joining-in-python)
 
-The implementation uses a pushdown machine to detect the `NL` tokens that
-should be picked out (not all of them are).  A pushdown machine may be a bit
-overkill, though, but I hate nested `if`s and `elif`s.
+The implementation uses a pushdown machine to detect the `STRING` tokens
+followed by `NL` tokens that should be picked out (not all of them are).  A
+pushdown machine may be a bit overkill, though, but I hate nested `if`s and
+`elif`s.
 
 This situation is analogous to the one found in the book <i>Expert C
 Programming</i>, Chapter 2, by Peter van der Linden:

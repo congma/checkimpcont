@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/congma/checkimpcont.svg?branch=master)](https://travis-ci.org/congma/checkimpcont)
+
 ## `checkimpcont.py` ##
 
 Check string literal concatenation by implicit line continuation in Python souce.

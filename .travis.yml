@@ -11,5 +11,5 @@ install:
 
 script:
   - python -m doctest checkimpcont.py < "/dev/null"
-  - ./tests/test_contorted
+  - ./tests/test_contorted.sh
   - checkimpcont.py checkimpcont.py

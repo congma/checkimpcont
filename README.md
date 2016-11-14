@@ -2,7 +2,7 @@
 
 ## `checkimpcont.py` ##
 
-check concatenated string literals in Python 2.x source code.
+Check concatenated string literals in Python 2.x source code.
 
 
 ## Usage ##

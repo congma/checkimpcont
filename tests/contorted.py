@@ -2,27 +2,27 @@
 """
 A test case file.  Currently containing valid Python code only.
 """
-# must find 7 warnings
-x = ("a-shouldfind"
-        "b-shouldfind"  # some trailing spaces
+# must find 10 warnings
+x = ("a"    # XXX
+        "b"  # some trailing spaces, XXX
                         # more hanging comments
 
-"c-shouldfind"
+"c"    # XXX
 # Coment line, MOAR newlines
 # Comment block
 
 
-"" # shouldfind
-     # The following is an explicit continuation
+""  # XXX
+     # The following is an explicit continuation, XXX
   "d" \
      "e",
-     ["sp"  # shouldfind
-      "am", "eggs", u"œu-shouldfind"
+     ["sp"  # XXX
+      "am", "eggs", u"œu"  # XXX
       u"fs",
       None
       ],
-         "f"
-     "g" "h"    # shouldfind
+         "f"    # XXX
+     "g" "h"    # XXX XXX
 
      # Last item in seq with closing-paren on another line.
      # Shouldn't generate warning.

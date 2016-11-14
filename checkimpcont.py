@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""check string literal concatenation by implicit line continuation.
+"""check concatenated string literals in Python 2.x source code.
 usage: checkimpcont.py [file]
 """
 import sys
@@ -37,8 +37,8 @@ def dump_error(pos, text):
 
 def notify(pos, text):
     """Write detection message at position pos with line text text."""
-    print ("%s:%s: warning: possible string literal concatenation "
-           "by implicit continuation" % pos)
+    print ("%s:%s: warning: string literal "
+           "concatenation" % pos)
     print text
     print putcursor(pos[1])
 
@@ -140,7 +140,7 @@ ST_CHECK = State("check")
 ST_INIT.add_rule(IS_STR, ST_SEEK_NL, push_stack)
 ST_INIT.set_default(ST_INIT)
 
-ST_SEEK_NL.add_rule(IS_STR, ST_SEEK_NL, compose(pop_stack, push_stack))
+ST_SEEK_NL.add_rule(IS_STR, ST_SEEK_NL, compose(use_stack, push_stack))
 ST_SEEK_NL.add_rule(make_membership_p(tokenize.COMMENT), ST_SEEK_NL)
 ST_SEEK_NL.add_rule(make_membership_p(tokenize.NL), ST_CHECK)
 ST_SEEK_NL.set_default(ST_INIT, pop_stack)

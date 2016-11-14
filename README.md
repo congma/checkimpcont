@@ -2,7 +2,7 @@
 
 ## `checkimpcont.py` ##
 
-Check string literal concatenation by implicit line continuation in Python souce.
+check concatenated string literals in Python 2.x source code.
 
 
 ## Usage ##
@@ -20,9 +20,9 @@ checkimpcont.py checkimpcont.py
 
 It detects one warning:
 ```
-40:67: warning: possible string literal concatenation by implicit continuation
-    print ("%s:%s: warning: possible string literal concatenation "
-                                                                ~~~^
+40:44: warning: string literal concatenation
+    print ("%s:%s: warning: string literal "
+                                         ~~~^
 ```
 
 ## Installation ##
@@ -33,9 +33,9 @@ python setup.py install
 
 ## Rationale ##
 
-Like C, Python allows adjacent string literals to be implicitly concatenated,
-even if they span multiple lines.  Sometimes, this can be confusing when
-initializing a sequence, for instance,
+Like C, Python allows adjacent string literals to be implicitly concatenated.
+In particular, this can happen to strings on different lines.  Sometimes, this
+can be confusing when initializing a sequence, for instance,
 ```python
 L = ["spam",
      "eggs"

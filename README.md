@@ -50,8 +50,7 @@ See also the StackOverflow posts:
 
 The implementation uses a pushdown machine to detect the `STRING` tokens
 followed by `NL` tokens that should be picked out (not all of them are).  A
-pushdown machine may be a bit overkill, though, but I hate nested `if`s and
-`elif`s.
+pushdown machine may be a bit overkill, but I hate nested `if`s and `elif`s.
 
 This situation is analogous to the one found in the book <i>Expert C
 Programming</i>, Chapter 2, by Peter van der Linden:

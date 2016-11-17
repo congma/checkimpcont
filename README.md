@@ -68,6 +68,11 @@ char *available_resources[] = {
 It would be a mistake to assume the resources include a Cray supercomputer.
 
 
+## See Also ##
+
+[vim-checkimpcont](https://github.com/congma/vim-checkimpcont), a Vim plugin.
+
+
 ## License ##
 
 The code is in public domain.

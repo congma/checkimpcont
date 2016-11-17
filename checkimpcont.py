@@ -131,16 +131,22 @@ def make_membership_p(*toks):
     return predicate
 
 
+# Predicate function that returns whether the input token is string.  The stack
+# is ignored.
 IS_STR = make_membership_p(tokenize.STRING)
+# Use stack top, pop it, and replace it with the input token.
+USE_AND_REP = compose(use_stack, push_stack)
 
 ST_INIT = State("start")
 ST_SEEK_NL = State("seek-nl")
 ST_CHECK = State("check")
 
+FOUND_GO_BACK = (IS_STR, ST_SEEK_NL, USE_AND_REP)
+
 ST_INIT.add_rule(IS_STR, ST_SEEK_NL, push_stack)
 ST_INIT.set_default(ST_INIT)
 
-ST_SEEK_NL.add_rule(IS_STR, ST_SEEK_NL, compose(use_stack, push_stack))
+ST_SEEK_NL.add_rule(*FOUND_GO_BACK)
 ST_SEEK_NL.add_rule(make_membership_p(tokenize.COMMENT), ST_SEEK_NL)
 ST_SEEK_NL.add_rule(make_membership_p(tokenize.NL), ST_CHECK)
 ST_SEEK_NL.set_default(ST_INIT, pop_stack)
@@ -149,7 +155,7 @@ ST_CHECK.add_rule(lambda x, stack: (x[0] == tokenize.OP) and (x[1] in OPCLOSE),
                   ST_INIT, pop_stack)
 ST_CHECK.add_rule(make_membership_p(tokenize.COMMENT, tokenize.NL),
                   ST_CHECK)
-ST_CHECK.add_rule(IS_STR, ST_SEEK_NL, compose(use_stack, push_stack))
+ST_CHECK.add_rule(*FOUND_GO_BACK)
 ST_CHECK.set_default(ST_INIT, use_stack)
 
 

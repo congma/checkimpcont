@@ -115,12 +115,12 @@ def pop_stack(inp, stack):  # pylint: disable=W0613
         stack.pop()
 
 
-def compose(*fcns):
+def chain(*fcns):
     """Compose stack action functions sequentially."""
-    def composed(inp, stack):  # pylint: disable=C0111
+    def chained(inp, stack):  # pylint: disable=C0111
         for f in fcns:  # pylint: disable=C0103
             f(inp, stack)
-    return composed
+    return chained
 
 
 # Predicate helper.
@@ -135,7 +135,7 @@ def make_membership_p(*toks):
 # is ignored.
 IS_STR = make_membership_p(tokenize.STRING)
 # Use stack top, pop it, and replace it with the input token.
-USE_AND_REP = compose(use_stack, push_stack)
+USE_AND_REP = chain(use_stack, push_stack)
 
 ST_INIT = State("start")
 ST_SEEK_NL = State("seek-nl")

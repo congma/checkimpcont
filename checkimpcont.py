@@ -100,16 +100,16 @@ def push_stack(inp, stack):
     stack.append(inp)
 
 
-def use_stack(inp, stack):  # pylint: disable=W0613
+def use_stack(inp, stack):
     """Pop stack and use the popped item for output message.  No action if
     empty.
     """
     if stack:
-        tok, _, __, end, text = stack.pop()  # pylint: disable=W0612,C0103
+        tok, _, __, end, text = stack.pop()  # pylint: disable=C0103
         notify(end, text.rstrip("\n"))
 
 
-def pop_stack(inp, stack):  # pylint: disable=W0613
+def pop_stack(inp, stack):
     """Pop and discard item off stack.  No action if empty."""
     if stack:
         stack.pop()
@@ -126,7 +126,7 @@ def chain(*fcns):
 # Predicate helper.
 def make_membership_p(*toks):
     """Create a membership-testing predicate function for token types."""
-    def predicate(inp, stack):  # pylint: disable=W0613,C0111
+    def predicate(inp, stack):  # pylint: disable=C0111
         return inp[0] in toks
     return predicate
 
@@ -171,7 +171,7 @@ def main():
     pda = Machine(ST_INIT)
     tok_gen = tokenize.generate_tokens(stream.readline)
     for toktuple in tok_gen:
-        tok, _, start, __, line_text = toktuple  # pylint: disable=W0612,C0103
+        tok, _, start, __, line_text = toktuple  # pylint: disable=C0103
         if tok == tokenize.ERRORTOKEN:
             dump_error(start, line_text.rstrip("\n"))
             sys.exit(1)

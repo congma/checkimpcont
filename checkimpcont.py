@@ -25,8 +25,7 @@ def putcursor(col):
     """
     if col < CTLEN:
         return "%s%s" % (" " * col, CURSOR)
-    else:
-        return "%s%s%s" % (" " * (col - CTLEN), CURSORTAIL, CURSOR)
+    return "%s%s%s" % (" " * (col - CTLEN), CURSORTAIL, CURSOR)
 
 
 def dump_error(pos, text):
@@ -69,7 +68,7 @@ class State:
         self.default_action = action
 
 
-class Machine:
+class Machine:  # pylint: disable=R0903
     """A limited pushdown machine, with side-effect actions (i.e. IO)."""
 
     def __init__(self, starting_state):
@@ -101,16 +100,16 @@ def push_stack(inp, stack):
     stack.append(inp)
 
 
-def use_stack(inp, stack):
+def use_stack(inp, stack):  # pylint:disable=W0613
     """Pop stack and use the popped item for output message.  No action if
     empty.
     """
     if stack:
-        tok, _, __, end, text = stack.pop()  # pylint: disable=C0103
+        tok, _, __, end, text = stack.pop()  # pylint: disable=W0612,C0103
         notify(end, text.rstrip("\n"))
 
 
-def pop_stack(inp, stack):
+def pop_stack(inp, stack):  # pylint:disable=W0613
     """Pop and discard item off stack.  No action if empty."""
     if stack:
         stack.pop()
@@ -127,7 +126,7 @@ def chain(*fcns):
 # Predicate helper.
 def make_membership_p(*toks):
     """Create a membership-testing predicate function for token types."""
-    def predicate(inp, stack):  # pylint: disable=C0111
+    def predicate(inp, stack):  # pylint: disable=W0613
         return inp[0] in toks
     return predicate
 
@@ -171,7 +170,7 @@ def main():
     pda = Machine(ST_INIT)
     tok_seq = tokenize.generate_tokens(stream.readline)
     for toktuple in tok_seq:
-        tok, _, start, __, line_text = toktuple  # pylint: disable=C0103
+        tok, _, start, __, line_text = toktuple  # pylint: disable=W0612,C0103
         if tok == tokenize.ERRORTOKEN:
             dump_error(start, line_text.rstrip("\n"))
             stream.close()

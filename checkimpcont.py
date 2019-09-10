@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-"""check concatenated string literals in Python 2.x source code.
+"""check concatenated string literals in Python source code.
 usage: checkimpcont.py [file]
 """
 import sys
 import tokenize
 
 
-OPCLOSE = frozenset((")", "]", "}"))    # closing delimiters
-
+# Closing delimiters.
+OPCLOSE = frozenset((")", "]", "}"))
+# Cursors (for output).
 CURSOR = "^"
 CURSORTAIL = "~~~"
 CTLEN = len(CURSORTAIL)
@@ -15,11 +16,11 @@ CTLEN = len(CURSORTAIL)
 
 def putcursor(col):
     """Put cursor at column col (0-based column index).
-    >>> print putcursor(2)
+    >>> print(putcursor(2))
       ^
-    >>> print putcursor(3)
+    >>> print(putcursor(3))
     ~~~^
-    >>> print putcursor(4)
+    >>> print(putcursor(4))
      ~~~^
     """
     if col < CTLEN:
@@ -30,20 +31,20 @@ def putcursor(col):
 
 def dump_error(pos, text):
     """Dump a ERRORTOKEN message at position pos with line text text."""
-    print "%s:%s: error: tokenization error" % pos
-    print text
-    print putcursor(pos[1])
+    print("%s:%s: error: tokenization error" % pos)
+    print(text)
+    print(putcursor(pos[1]))
 
 
 def notify(pos, text):
     """Write detection message at position pos with line text text."""
-    print ("%s:%s: warning: string literal "
-           "concatenation" % pos)
-    print text
-    print putcursor(pos[1])
+    print("%s:%s: warning: string literal "
+          "concatenation" % pos)
+    print(text)
+    print(putcursor(pos[1]))
 
 
-class State(object):
+class State:
     """Class stub for a state instance."""
 
     def __init__(self, name="unknown", is_end=False, *rules):
@@ -68,7 +69,7 @@ class State(object):
         self.default_action = action
 
 
-class Machine(object):
+class Machine:
     """A limited pushdown machine, with side-effect actions (i.e. IO)."""
 
     def __init__(self, starting_state):
@@ -151,10 +152,9 @@ ST_SEEK_NL.add_rule(make_membership_p(tokenize.COMMENT), ST_SEEK_NL)
 ST_SEEK_NL.add_rule(make_membership_p(tokenize.NL), ST_CHECK)
 ST_SEEK_NL.set_default(ST_INIT, pop_stack)
 
-ST_CHECK.add_rule(lambda x, stack: (x[0] == tokenize.OP) and (x[1] in OPCLOSE),
+ST_CHECK.add_rule(lambda x, stack: x[0] == tokenize.OP and x[1] in OPCLOSE,
                   ST_INIT, pop_stack)
-ST_CHECK.add_rule(make_membership_p(tokenize.COMMENT, tokenize.NL),
-                  ST_CHECK)
+ST_CHECK.add_rule(make_membership_p(tokenize.COMMENT, tokenize.NL), ST_CHECK)
 ST_CHECK.add_rule(*FOUND_GO_BACK)
 ST_CHECK.set_default(ST_INIT, use_stack)
 
@@ -167,13 +167,14 @@ def main():
     except IndexError:
         stream = sys.stdin
     else:
-        stream = open(path, "r")
+        stream = open(path)
     pda = Machine(ST_INIT)
-    tok_gen = tokenize.generate_tokens(stream.readline)
-    for toktuple in tok_gen:
+    tok_seq = tokenize.generate_tokens(stream.readline)
+    for toktuple in tok_seq:
         tok, _, start, __, line_text = toktuple  # pylint: disable=C0103
         if tok == tokenize.ERRORTOKEN:
             dump_error(start, line_text.rstrip("\n"))
+            stream.close()
             sys.exit(1)
         pda.consume(toktuple)
     stream.close()

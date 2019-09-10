@@ -2,7 +2,7 @@
 
 ## `checkimpcont.py` ##
 
-Check concatenated string literals in Python 2.x source code.
+Check concatenated string literals in Python source code.
 
 
 ## Usage ##
@@ -20,15 +20,17 @@ checkimpcont.py checkimpcont.py
 
 It detects one warning:
 ```
-40:44: warning: string literal concatenation
-    print ("%s:%s: warning: string literal "
-                                         ~~~^
+41:43: warning: string literal concatenation
+    print("%s:%s: warning: string literal "
+                                        ~~~^
 ```
 
 ## Installation ##
 
 ```bash
 python setup.py install
+# -- or --
+pip install .
 ```
 
 ## Rationale ##
